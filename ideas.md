@@ -1,0 +1,1 @@
+based on some parameters like: tone (friendly, professional), if the messages should be for an email or DM, feeling (detect th)
