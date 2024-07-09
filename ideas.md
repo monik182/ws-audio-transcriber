@@ -1,1 +1,2 @@
-based on some parameters like: tone (friendly, professional), if the messages should be for an email or DM, feeling (detect th)
+based on some parameters like: tone (friendly, professional), if the messages should be for an email or DM, feeling
+recommend responses in the same language as the audio and matching the feeling/sentiment
