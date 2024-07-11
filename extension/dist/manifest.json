@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "*WS Audio Transcript",
+  "version": "1.0",
+  "description": "A simple Chrome extension that transcribes WhatsApp audios",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.bundle.js"
+  },
+  "host_permissions": [
+    "https://web.whatsapp.com/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "popup.bundle.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}
