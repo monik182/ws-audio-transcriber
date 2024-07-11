@@ -29,25 +29,24 @@ async function getCurrentTab() {
 }
 
 function execute(tab) {
-  console.log('CURRENT TAB>>>>', tab)
+  // console.log('CURRENT TAB>>>>', tab)
   if (tab.url.includes("web.whatsapp.com")) {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       files: ["content.bundle.js"]
       // files: ["content.bundle.js"]
     }).then(() => {
-      console.log("Content script injected.");
+      // console.log("Content script injected.");
     }).catch((error) => {
       console.error("Failed to inject content script:", error);
     });
   } else {
-    console.log("This extension only works on web.example.com");
+    // console.log("This extension only works on web.example.com");
   }
 }
 
 async function init() {
   const tab = await getCurrentTab()
-  console.log('THIS IS THETAB in init', tab)
 
   if (tab) {
     execute(tab)
