@@ -29,24 +29,46 @@
 // const converter = new AudioConverter();
 // converter.convertAndDownload(uint8Array, mimeType, filename);
 
-chrome.runtime.onMessage.addListener((message) => {
-  console.log('MESAGE???>>>>', message)
-  if (message.action === "sendData") {
-    const contentDiv = document.getElementById("content");
-    const storeDiv = document.createElement("div");
-    storeDiv.classList.add("store");
+// chrome.runtime.onMessage.addListener((message) => {
+//   console.log('*********MESAGE???>>>>', message)
+//   if (message.action === "sendData") {
+//     const contentDiv = document.getElementById("content");
+//     const storeDiv = document.createElement("div");
+//     storeDiv.classList.add("store");
 
-    const storeNameHeading = document.createElement("h2");
-    storeNameHeading.textContent = message.storeName;
-    storeDiv.appendChild(storeNameHeading);
+//     const storeNameHeading = document.createElement("h2");
+//     storeNameHeading.textContent = message.storeName;
+//     storeDiv.appendChild(storeNameHeading);
 
-    const dataPre = document.createElement("pre");
-    dataPre.textContent = JSON.stringify(message.data, null, 2);
-    storeDiv.appendChild(dataPre);
+//     const dataPre = document.createElement("pre");
+//     dataPre.textContent = JSON.stringify(message.data, null, 2);
+//     storeDiv.appendChild(dataPre);
 
-    contentDiv.appendChild(storeDiv);
-  }
-});
+//     contentDiv.appendChild(storeDiv);
+//   }
+// });
 
 // getCurrentTab()
 // .then()
+
+window.addEventListener('DOMContentLoaded', () => {
+  chrome.runtime.onMessage.addListener((message) => {
+    console.log('*********MESAGE???>>>>', message)
+    if (message.action === "sendData") {
+      const contentDiv = document.getElementById("content");
+      const storeDiv = document.createElement("div");
+      storeDiv.classList.add("store");
+
+      const storeNameHeading = document.createElement("h2");
+      storeNameHeading.textContent = message.storeName;
+      storeDiv.appendChild(storeNameHeading);
+
+      const dataPre = document.createElement("pre");
+      dataPre.textContent = JSON.stringify(message.data, null, 2);
+      storeDiv.appendChild(dataPre);
+
+      contentDiv.appendChild(storeDiv);
+    }
+  });
+
+})

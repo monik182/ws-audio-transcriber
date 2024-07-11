@@ -19,6 +19,15 @@ chrome.action.onClicked.addListener((tab) => {
 });
 
 chrome.tabs.onActivated.addListener(init);
+
+chrome.runtime.onMessage.addListener(
+  function (request, sender, sendResponse) {
+    console.log("background.js got a message")
+    console.log(request);
+    console.log(sender);
+    // sendResponse("bar");
+  }
+);
 // chrome.tabs.onActivated.addListener(getCurrentTab);
 
 async function getCurrentTab() {

@@ -30,12 +30,15 @@ export default function readIndexedDB() {
 
 function sendMessageToPopup(storeName, data) {
   chrome.runtime.sendMessage({
-    message: {
-      action: "sendData",
-      storeName: storeName,
-      data: data
-    }
+    action: "sendData",
+    storeName: storeName,
+    data: data
   });
+  // chrome.tabs.sendMessage({
+  //   action: "sendData2",
+  //   storeName: storeName,
+  //   data: data
+  // });
 }
 
 
