@@ -2,33 +2,30 @@
 //   console.log("Hello World Extension installed.");
 // });
 
-chrome.action.onClicked.addListener((tab) => {
-  console.log('CURRENT TAB>>>>', tab)
-  if (tab.url.includes("web.whatsapp.com")) {
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      files: ["content.bundle.js"]
-    }).then(() => {
-      console.log("Content script injected.");
-    }).catch((error) => {
-      console.error("Failed to inject content script:", error);
-    });
-  } else {
-    console.log("This extension only works on web.example.com");
-  }
-});
+// chrome.action.onClicked.addListener((tab) => {
+//   console.log('CURRENT TAB>>>>', tab)
+//   if (tab.url.includes("web.whatsapp.com")) {
+//     chrome.scripting.executeScript({
+//       target: { tabId: tab.id },
+//       files: ["content.bundle.js"]
+//     }).then(() => {
+//       console.log("Content script injected.");
+//     }).catch((error) => {
+//       console.error("Failed to inject content script:", error);
+//     });
+//   } else {
+//     console.log("This extension only works on web.example.com");
+//   }
+// });
 
 chrome.tabs.onActivated.addListener(init);
 
 chrome.runtime.onMessage.addListener(
-  function (request, sender, sendResponse) {
-    console.log("background.js got a message")
-    console.log(request);
-    console.log(sender);
-    // sendResponse("bar");
+  function (request) {
+    console.log('GEN listener BG', request)
+    // chrome.storage.local.set({ audios: request.data });
   }
 );
-// chrome.tabs.onActivated.addListener(getCurrentTab);
 
 async function getCurrentTab() {
   let queryOptions = { active: true, lastFocusedWindow: true };

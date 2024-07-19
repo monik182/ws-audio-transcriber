@@ -1,3 +1,4 @@
+
 // import AudioConverter from './audioConverter.js';
 // import getAllRecordsFromIndexedDB from './getRecords.js';
 // let RECORDS = []
@@ -51,10 +52,13 @@
 // getCurrentTab()
 // .then()
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
+  const audios = await chrome.storage.local.get('audios');
+  console.log('Retieved audios', audios)
+
   chrome.runtime.onMessage.addListener((message) => {
     console.log('*********MESAGE???>>>>', message)
-    if (message.action === "sendData") {
+    if (message.action === "sendAudios") {
       const contentDiv = document.getElementById("content");
       const storeDiv = document.createElement("div");
       storeDiv.classList.add("store");
@@ -70,5 +74,10 @@ window.addEventListener('DOMContentLoaded', () => {
       contentDiv.appendChild(storeDiv);
     }
   });
+});
 
-})
+// window.onload = function () {
+//   console.log("onload" + Date())
+// }
+
+

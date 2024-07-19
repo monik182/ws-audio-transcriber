@@ -1,4 +1,5 @@
 import Recorder from 'opus-recorder';
+import encoderPath from 'opus-recorder/dist/encoderWorker.min.js';
 
 class AudioConverter {
   constructor() {
@@ -6,23 +7,29 @@ class AudioConverter {
   }
 
   async createAudioBufferFromUint8Array(uint8Array) {
+    console.log('this.context>>>>', this.context)
+    console.log('uint8Array>>>>', uint8Array)
+    console.log('uint8Array buffer>>>>', uint8Array.buffer)
     try {
-      const audioBuffer = await this.context.decodeAudioData(uint8Array.buffer);
+      const arrayBuffer = uint8Array.buffer;
+      console.log('uint8Array buffer>>>>', arrayBuffer)
+
+      const audioBuffer = await this.context.decodeAudioData(arrayBuffer);
       return audioBuffer;
     } catch (error) {
-      console.log('ERROR>>>>', error)
+      console.log('Failed to decode audio data:', error);
       throw new Error('Failed to decode audio data. Ensure the data is in a supported audio format.');
     }
   }
 
   audioBufferToWav(audioBuffer) {
-    const numOfChannels = audioBuffer.numberOfChannels,
-      length = audioBuffer.length * numOfChannels * 2 + 44,
-      buffer = new ArrayBuffer(length),
-      view = new DataView(buffer),
-      channels = [],
-      sampleRate = audioBuffer.sampleRate,
-      bitDepth = 16;
+    const numOfChannels = audioBuffer.numberOfChannels;
+    const length = audioBuffer.length * numOfChannels * 2 + 44;
+    const buffer = new ArrayBuffer(length);
+    const view = new DataView(buffer);
+    const channels = [];
+    const sampleRate = audioBuffer.sampleRate;
+    const bitDepth = 16;
 
     this.writeString(view, 0, 'RIFF');
     view.setUint32(4, 36 + audioBuffer.length * numOfChannels * 2, true);
@@ -38,8 +45,8 @@ class AudioConverter {
     this.writeString(view, 36, 'data');
     view.setUint32(40, audioBuffer.length * numOfChannels * 2, true);
 
-    let offset = 44,
-      pos = 0;
+    let offset = 44;
+    let pos = 0;
     for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
       channels.push(audioBuffer.getChannelData(i));
     }
@@ -102,7 +109,7 @@ class AudioConverter {
   async audioBufferToOgg(audioBuffer) {
     return new Promise((resolve, reject) => {
       const recorder = new Recorder({
-        encoderPath: '/path/to/your/public/js/encoderWorker.min.js', // Update this path
+        encoderPath,
         encoderSampleRate: audioBuffer.sampleRate,
         numberOfChannels: audioBuffer.numberOfChannels,
         streamPages: false,
