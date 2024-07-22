@@ -21,7 +21,9 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "popup.bundle.js"
+        "popup.bundle.js",
+        "processAudios.bundle.js",
+        "processAudiosV2.bundle.js"
       ],
       "matches": [
         "<all_urls>"

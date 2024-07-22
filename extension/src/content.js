@@ -1,6 +1,15 @@
-import AudioConverter from './audioConverter.js';
-import inverseMethod from './inverse.js'
-import executeInverseMethod from './encode.js'
+// import processAudio from './processAudios'
+// import init from './processAudios2'
+
+const script = document.createElement("script");
+console.log('Getting url!!!!')
+// init()
+// const src = chrome.runtime.getURL("processAudios.bundle.js");
+const src = chrome.runtime.getURL("processAudiosV2.bundle.js");
+// const src = chrome.runtime.getURL("src/processAudios.js");
+console.log('SRC>>>>>', src)
+script.src = src;
+document.body.appendChild(script);
 
 export default function readIndexedDB() {
   const dbName = "model-storage"; // Replace with your actual IndexedDB name
@@ -45,8 +54,12 @@ function sendMessageToPopup(storeName, data) {
   // });
 }
 
+// chrome.runtime.onMessage.addListener((message) => {
+//   console.log('new message on popuo', 'installedExt', message)
+// })
+
 window.addEventListener("audioOGG", async (data) => {
-  console.log('****audioOGG event listner....', data)
+  console.log('****audioOGG event listener....', data)
   const id = data.detail.id;
 
   let oggBlob = await fetch(data.detail.oggBlobURL);

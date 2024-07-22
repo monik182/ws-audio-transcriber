@@ -2,6 +2,17 @@
 //   console.log("Hello World Extension installed.");
 // });
 
+
+chrome.runtime.onInstalled.addListener(details => {
+  console.log('intstalled details>>>>', details)
+  // chrome.runtime.sendMessage({
+  //   action: "installedExt",
+  // });
+  // if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+    // chrome.runtime.setUninstallURL('https://example.com/extension-survey');
+  // }
+});
+
 // chrome.action.onClicked.addListener((tab) => {
 //   console.log('CURRENT TAB>>>>', tab)
 //   if (tab.url.includes("web.whatsapp.com")) {

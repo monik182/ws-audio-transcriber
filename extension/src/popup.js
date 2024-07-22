@@ -52,6 +52,7 @@
 // getCurrentTab()
 // .then()
 
+
 window.addEventListener('DOMContentLoaded', async () => {
   const audios = await chrome.storage.local.get('audios');
   console.log('Retieved audios', audios)
@@ -81,3 +82,17 @@ window.addEventListener('DOMContentLoaded', async () => {
 // }
 
 
+async function executeInverseMethod() {
+  const audioData = await inverseMethod(exampleWaveform, exampleDuration);
+
+  // Download the file
+  const blob = new Blob([audioData], { type: 'audio/wav' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.style.display = 'none';
+  a.href = url;
+  a.download = 'reconstructed_audio.wav';
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+}

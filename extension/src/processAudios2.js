@@ -1,15 +1,15 @@
 import { waitUntil } from './util';
 
-(() => {
-  console.log('##********************** INSIDE PROCESS AUDIO ************************')
+export default function init() {
+  console.log('INIT ##********************** INSIDE PROCEESS AUDIO ************************')
   let MediaBlobCache;
 
   const loadModule = (name, id) => {
     window.ErrorGuard?.skipGuardGlobal(true);
     return new Promise(r => {
       try {
-          console.log('loadModule onTRY webpackChunkwhatsapp_web_client???>>>>', window.webpackChunkwhatsapp_web_client)
-          window.webpackChunkwhatsapp_web_client?.push([[Math.random()], {}, e => {
+        console.log('loadModule onTRY webpackChunkwhatsapp_web_client???>>>>', window.webpackChunkwhatsapp_web_client)
+        window.webpackChunkwhatsapp_web_client?.push([[Math.random()], {}, e => {
           const module = e(id);
           r(module.default ? module.default : module);
         }]);
@@ -48,28 +48,26 @@ import { waitUntil } from './util';
   }
 
   const interval = setInterval(async () => {
-    console.log('inside interval......')
     if (!document.querySelector("#side")) return;
     clearInterval(interval);
-    console.log('after return in interval...')
 
-    const WAWebMediaInMemoryBlobCache = await loadModule("WAWebMediaInMemoryBlobCache", 100000)
+    const WAWebMediaInMemoryBlobCache = await loadModule("WAWebMediaInMemoryBlobCache", 196127)
     console.log('WAWebMediaInMemoryBlobCache>>>>>', WAWebMediaInMemoryBlobCache)
     MediaBlobCache = WAWebMediaInMemoryBlobCache?.InMemoryMediaBlobCache;
-    // MediaBlobCache = (await loadModule("WAWebMediaInMemoryBlobCache", 100000)).InMemoryMediaBlobCache;
+    // MediaBlobCache = (await loadModule("WAWebMediaInMemoryBlobCache", 196127)).InMemoryMediaBlobCache;
 
     if (!MediaBlobCache) return
 
-    (await loadModule("WAWebCollections", 200000)).Msg.on("add", on_message);
+    (await loadModule("WAWebCollections", 729804)).Msg.on("add", on_message);
 
-    (await loadModule("WAWebChatCollection", 300000)).ChatCollection.getModelsArray().forEach(e => {
+    (await loadModule("WAWebChatCollection", 351053)).ChatCollection.getModelsArray().forEach(e => {
       const lastMessage = e.msgs._models[e.msgs._models.length - 1];
       if (!lastMessage) return;
       on_message(lastMessage);
     });
 
   }, 100);
-})();
+}
 
 // let messages = (await loadModule("WAWebChatCollection", 351053)).ChatCollection.getModelsArray()
 // // console.log(messages)
