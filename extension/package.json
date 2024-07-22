@@ -13,8 +13,5 @@
   "devDependencies": {
     "webpack": "^5.93.0",
     "webpack-cli": "^5.1.4"
-  },
-  "dependencies": {
-    "opus-recorder": "^8.0.5"
   }
 }

@@ -22,8 +22,7 @@
     {
       "resources": [
         "popup.bundle.js",
-        "processAudios.bundle.js",
-        "processAudiosV2.bundle.js"
+        "processAudios.bundle.js"
       ],
       "matches": [
         "<all_urls>"

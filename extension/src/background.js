@@ -1,42 +1,8 @@
-// chrome.runtime.onInstalled.addListener(() => {
-//   console.log("Hello World Extension installed.");
-// });
-
-
 chrome.runtime.onInstalled.addListener(details => {
   console.log('intstalled details>>>>', details)
-  // chrome.runtime.sendMessage({
-  //   action: "installedExt",
-  // });
-  // if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
-    // chrome.runtime.setUninstallURL('https://example.com/extension-survey');
-  // }
 });
 
-// chrome.action.onClicked.addListener((tab) => {
-//   console.log('CURRENT TAB>>>>', tab)
-//   if (tab.url.includes("web.whatsapp.com")) {
-//     chrome.scripting.executeScript({
-//       target: { tabId: tab.id },
-//       files: ["content.bundle.js"]
-//     }).then(() => {
-//       console.log("Content script injected.");
-//     }).catch((error) => {
-//       console.error("Failed to inject content script:", error);
-//     });
-//   } else {
-//     console.log("This extension only works on web.example.com");
-//   }
-// });
-
 chrome.tabs.onActivated.addListener(init);
-
-chrome.runtime.onMessage.addListener(
-  function (request) {
-    console.log('GEN listener BG', request)
-    // chrome.storage.local.set({ audios: request.data });
-  }
-);
 
 async function getCurrentTab() {
   let queryOptions = { active: true, lastFocusedWindow: true };
