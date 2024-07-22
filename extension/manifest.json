@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "****WS Audio Transcript",
+  "name": "**WS Audio Transcript",
   "version": "1.0",
   "description": "A simple Chrome extension that transcribes WhatsApp audios",
   "permissions": [
