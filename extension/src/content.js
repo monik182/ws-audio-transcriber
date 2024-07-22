@@ -1,5 +1,5 @@
 const script = document.createElement("script");
-const src = chrome.runtime.getURL("processAudios.bundle.js");
+const src = chrome.runtime.getURL("loadAudios.bundle.js");
 script.src = src;
 document.body.appendChild(script);
 

@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(details => {
-  console.log('intstalled details>>>>', details)
+  console.log('installed details>>>>', details)
 });
 
 chrome.tabs.onActivated.addListener(init);

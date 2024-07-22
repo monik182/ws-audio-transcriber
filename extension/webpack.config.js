@@ -6,7 +6,7 @@ module.exports = {
     // popup: './src/popup.js',
     background: './src/background.js',
     content: './src/content.js',
-    processAudios: './src/processAudios.js',
+    loadAudios: './src/loadAudios.js',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
