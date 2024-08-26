@@ -1,7 +1,9 @@
 # TO DOs
 
 [ ] Send blob to OpenAI to get the transcription of the audio
+[ ] Validate if a firebase cloud function is needed
 [ ] Clean up code
+[ ] Create repo on github
 [ ] Build deployable extension
 [ ] Make Landing page
 [ ] Test with family and friends
