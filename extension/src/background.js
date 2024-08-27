@@ -1,3 +1,5 @@
+import transcribeAudio from './transcribe';
+
 chrome.runtime.onInstalled.addListener(details => {
   console.log('installed details>>>>', details)
 });
@@ -11,7 +13,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     // oggBlob = await oggBlob.blob();
     // console.log('request inside oggBlob', oggBlob)
     console.log('request inside oggBlob URL', request.oggBlobURL)
-    const transcription = await uploadAudioBlob(request.oggBlobURL)
+    const transcription = await getTranscription(request.oggBlobURL)
     console.log('TRANSCRIPTION>>>', transcription)
   }
   // chrome.storage.sync.get("token", async result => {
@@ -55,7 +57,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 });
 
 
-async function uploadAudioBlob(blobUrl) {
+async function getTranscription(blobUrl) {
   const response = await fetch(blobUrl);
   console.log('*****GEtting upload audio url', blobUrl);
   const blob = await response.blob(); // Convert blob URL to a blob object
@@ -63,25 +65,9 @@ async function uploadAudioBlob(blobUrl) {
 
   const audioBlob = new Blob([blob], { type: 'audio/ogg' });
 
-  // Create a new FormData object
-  let formData = new FormData();
-  formData.append("audio", audioBlob, "audio-file.ogg");
-  formData.append("file", audioBlob, "audio-file.ogg");
-  console.log('FORM DATA', formData)
-
-  // Send the blob to your Firebase Function
-  fetch("http://127.0.0.1:5001/ws-audio-transcript/us-central1/uploadAudio", {
-  // fetch("http://127.0.0.1:5001/ws-audio-transcript/us-central1/transcribeAudioFromBlob", {
-    method: "POST",
-    body: formData,
-    // mode: 'cors' 
-  })
-    .then(response => response.text())
-    .then(data => console.log("Transcription: ", data))
-    .catch(error => console.error("Error uploading audio:", error));
+  const transcription = await transcribeAudio(audioBlob);
+  return transcription?.transcription?.text;
 }
-
-
 
 async function getCurrentTab() {
   let queryOptions = { active: true, lastFocusedWindow: true };

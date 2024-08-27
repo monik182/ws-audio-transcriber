@@ -1,15 +1,16 @@
 import * as logger from "firebase-functions/logger"
 
-const functions = require('firebase-functions')
+const functions = require('firebase-functions/v2')
 import fetch from 'node-fetch';
 const FormData = require('form-data');
-
 
 exports.helloWorld = functions.https.onRequest((request: any, response: any) => {
     response.send(`Hello from Firebase!`);
 });
 
-exports.transcribeWithOpenAI = functions.https.onRequest(async (request: any, response: any) => {
+exports.transcribeWithOpenAI = functions.https.onRequest(
+    { cors: true },
+    async (request: any, response: any) => {
     const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
     const OPENAI_API_TRANSCRIPTIONS_URL = process.env.OPENAI_API_TRANSCRIPTIONS_URL;
     const model = 'whisper-1';

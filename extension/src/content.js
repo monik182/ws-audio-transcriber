@@ -30,21 +30,3 @@ window.addEventListener("audioOGG", async (data) => {
   // console.log('****audioOGG event listener....', oggBlob)
 
 });
-
-async function uploadAudioBlob(blobUrl) {
-  const response = await fetch(blobUrl);
-  const blob = await response.blob(); // Convert blob URL to a blob object
-
-  // Create a new FormData object
-  let formData = new FormData();
-  formData.append("file", blob, "audio-file.ogg");
-
-  // Send the blob to your Firebase Function
-  fetch("http://127.0.0.1:5001/ws-audio-transcript/us-central1/transcribeAudioFromBlob", {
-    method: "POST",
-    body: formData
-  })
-    .then(response => response.json())
-    .then(data => console.log("Transcription: ", data))
-    .catch(error => console.error("Error uploading audio:", error));
-}
