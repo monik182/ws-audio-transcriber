@@ -9,7 +9,7 @@
 [ ] Add pay platform
 [ ] Improve error handling
 [ ] Clean up code
-[ ] Create repo on github
+[x] Create repo on github
 [ ] Build deployable extension
 [ ] Make Landing page
 [ ] Test with family and friends
