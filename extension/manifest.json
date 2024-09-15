@@ -12,7 +12,20 @@
   "action": {
     "default_popup": "index.html"
   },
+  "background": {
+    "service_worker": "background.bundle.js"
+  },
   "host_permissions": [
     "https://web.whatsapp.com/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "loadAudios.bundle.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
   ]
 }
