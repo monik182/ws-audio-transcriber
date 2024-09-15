@@ -45,6 +45,7 @@ async function getAudioMessages() {
 }
 
 async function listenOnAdd(onMessage) {
+  console.log('_________------listenninh on add a new message....');
   (await loadModule("WAWebCollections", 200000)).Msg.on("add", onMessage)
 }
 

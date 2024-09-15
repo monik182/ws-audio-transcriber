@@ -2,7 +2,9 @@
 
 [x] Send blob to OpenAI to get the transcription of the audio
 [x] Validate if a firebase cloud function is needed
-[ ] Create mode to allow user to use their token
+[x] Create mode to allow user to use their token
+[ ] Process audios after saving api key
+[ ] Improve processing validations
 [ ] Create mode to charge user for using the service
 [ ] Add login page
 [ ] Add pricing page

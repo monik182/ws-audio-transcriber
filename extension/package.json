@@ -35,8 +35,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "copy-bg": "cp background.js build/",
-    "postbuildOLD": "copyfiles 'manifest.json' build",
-    "postbuildOLD2": "copyfiles 'background.js' 'transcribe.js' 'content.js' 'loadAudios.js' 'manifest.json' build",
     "postbuild": "webpack"
   },
   "eslintConfig": {

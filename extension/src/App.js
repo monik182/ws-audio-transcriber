@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-const TOKEN_KEY = 'token';
+import { getFromStorage, removeFromStorage, saveToStorage, TOKEN_KEY } from './utils';
 
 function App() {
   const [inputValue, setInputValue] = useState('');
@@ -20,6 +19,11 @@ function App() {
       await saveToStorage(inputValue);
       handleSetToken(inputValue);
       setInputValue('');
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs.length > 0) {
+          chrome.tabs.reload(tabs[0].id);
+        }
+      });
     } catch (error) {
       setError(error.message || 'There has been an error with the provided api key.');
       throw error
@@ -30,21 +34,12 @@ function App() {
     await deleteFromStorage(TOKEN_KEY)
   }
 
-  const saveToStorage = async (token) => {
-    await chrome.storage.sync.set({ token });
-  };
-
   const deleteFromStorage = async (key) => {
-    await chrome.storage.sync.remove(key);
+    await removeFromStorage(key);
     const token = await getFromStorage(TOKEN_KEY);
     if (!token) {
       setToken('');
     }
-  };
-
-  const getFromStorage = async (key) => {
-    const value = await chrome.storage.sync.get(key);
-    return value[key];
   };
 
   const handleSetToken = (token) => {

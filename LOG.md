@@ -10,3 +10,7 @@ Created the openAI transcribe api and is working fine
 
 ## Sep 15
 Created the repo
+Also created a new extension folder with react 
+Finished the UI to save/delete api key
+Finished the basic logic to process the audios
+Not using the firebase function any more
