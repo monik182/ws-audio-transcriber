@@ -3,16 +3,66 @@
 
 <head>
   <title>Hello World Extension</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <!-- <link rel="stylesheet" type="text/css" href="../src/styles.css"> -->
+  <!-- <style>
+    input {
+      width: 200px;
+    }
+    .button-wrapper {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+    }
+  </style> -->
 </head>
 
-<body>
+<body class="container p-2">
   <!-- <h1>Hello World!</h1> -->
   <!-- <button id="printButton">Print Hello</button> -->
-  <h1>IndexedDB Data</h1>
-  <div id="content"></div>
+  <!-- <h1>IndexedDB Data</h1> -->
+  <h1 class="title is-5 mb-2">Enter OpenAI API Key:</h1>
+  <div id="content">
+    <input class="input" type="text" id="wsat-openai-token" placeholder="Enter your OpenAI API Key">
+    <div class="grid mt-2">
+      <button class="button is-primary" id="wsat-save">
+        Save
+        <span class="icon">
+          <i class="fas fa-floppy-disk"></i>
+        </span>
+      </button>
+      <a class="button is-link is-light" id="wsat-new-button" href="https://platform.openai.com/api-keys" target="_blank">
+        New
+        <span class="icon">
+          <i class="fas fa-key"></i>
+        </span>
+      </a>
+    </div>
+  </div>
 
   <script src="popup.bundle.js"></script>
+  <script>
+    // console.log('STARTED THIS SCRIPT')
+
+    const input = document.querySelector('input#wsat-openai-token')
+    const button = document.querySelector('button#wsat-save')
+    const a = document.querySelector('a#wsat-new-button')
+
+    console.log('THESE ARE THE CURRENT ELEMENTS', {
+      input,
+      button,
+      a,
+    })
+
+    // document.addEventListener("DOMContentLoaded", (event) => {
+    //   console.log("DOM fully loaded and parsed");
+    // });
+    document.querySelector('input#wsat-openai-token').addEventListener('keydown', () => {
+      console.log('CLICKED.....')
+    });
+  </script>
 </body>
 
 </html>

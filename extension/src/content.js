@@ -1,10 +1,23 @@
-// import transcribeGoogle from './transcribeGoogle'
-import transcribeAudio from './transcribe'
 const script = document.createElement("script");
 const src = chrome.runtime.getURL("loadAudios.bundle.js");
 script.src = src;
 document.body.appendChild(script);
 let count = 0;
+
+// console.log('STARTED THIS content SCRIPT')
+// const input = document.querySelector('#ext-openai-token')
+// const button = document.querySelector('#ext-save-token')
+// const a = document.querySelector('#ext-new-button')
+
+// console.log('THESE ARE THE CURRENT ELEMENTS***', {
+//   input,
+//   button,
+//   a,
+// })
+
+// document.addEventListener("DOMContentLoaded", (event) => {
+//   console.log("DOM fully loaded and parsed");
+// });
 
 window.addEventListener("audioOGG", async (data) => {
   // console.log('****audioOGG event listener....', data)
