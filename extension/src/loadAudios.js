@@ -45,7 +45,7 @@ async function getAudioMessages() {
 }
 
 async function listenOnAdd(onMessage) {
-  console.log('_________------listenninh on add a new message....');
+  console.log('!!!!_________------listenninh on add a new message....');
   (await loadModule("WAWebCollections", 200000)).Msg.on("add", onMessage)
 }
 
@@ -77,21 +77,49 @@ function onMessageFactory(MediaBlobCache) {
   }
 }
 
+// (() => {
+//   console.log('*****************************STARTING THE LOAD AUDIOS SCRIPT******************************')
+//   const interval = setInterval(async () => {
+//     console.log('^^^^^^^^ checking the interval...')
+//     if (!document.querySelector("#side")) return
+//     clearInterval(interval)
+
+//     const MediaBlobCache = (await loadModule("WAWebMediaInMemoryBlobCache", 300000))?.InMemoryMediaBlobCache
+
+//     if (!MediaBlobCache) return
+
+//     const onMessage = onMessageFactory(MediaBlobCache)
+
+//     await listenOnAdd(onMessage)
+
+//     const messages = await getAudioMessages()
+//     messages.forEach(message => onMessage(message))
+
+//   }, 100)
+// })()f
+
 (() => {
+  console.log('*****************************STARTING THE LOAD AUDIOS SCRIPT 2******************************')
   const interval = setInterval(async () => {
-    if (!document.querySelector("#side")) return
-    clearInterval(interval)
+    console.log('#^^^^^^^^ checking the interval...#')
+    const sideElement = document.querySelector("#side");
 
-    const MediaBlobCache = (await loadModule("WAWebMediaInMemoryBlobCache", 300000))?.InMemoryMediaBlobCache
+    if (!sideElement) return;  // Keep checking if #side isn't found
 
-    if (!MediaBlobCache) return
+    clearInterval(interval);  // Clear the interval only when #side is found
+    console.log("Element #side found, clearing interval");
 
-    const onMessage = onMessageFactory(MediaBlobCache)
+    const MediaBlobCache = (await loadModule("WAWebMediaInMemoryBlobCache", 300000))?.InMemoryMediaBlobCache;
 
-    await listenOnAdd(onMessage)
+    if (!MediaBlobCache) return;
 
-    const messages = await getAudioMessages()
-    messages.forEach(message => onMessage(message))
+    const onMessage = onMessageFactory(MediaBlobCache);
 
-  }, 100)
-})()
+    await listenOnAdd(onMessage);
+
+    const messages = await getAudioMessages();
+    messages.forEach(message => onMessage(message));
+
+  }, 100);  // Interval runs every 100ms
+})();
+
