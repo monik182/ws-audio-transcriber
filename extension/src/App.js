@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getFromStorage, removeFromStorage, saveToStorage, TOKEN_KEY } from './utils';
+import { getFromStorage, removeFromStorage, saveToStorage, TOKEN_KEY, obfuscateToken, getModels } from './utils';
 
 function App() {
   const [inputValue, setInputValue] = useState('');
@@ -16,12 +16,40 @@ function App() {
         setError(models.error.message);
         return;
       }
-      await saveToStorage(inputValue);
+      await saveToStorage(TOKEN_KEY, inputValue);
       handleSetToken(inputValue);
       setInputValue('');
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         if (tabs.length > 0) {
-          chrome.tabs.reload(tabs[0].id);
+          chrome.tabs.reload(tabs[0].id, () => {
+            console.log('Page reloaded, injecting script...');
+            // chrome.scripting.executeScript({
+            //   target: { tabId: tabs[0].id },
+            //   func: () => {
+            //     // Create a new script element
+            //     const script = document.createElement("script");
+  
+            //     // Set the source to your script file
+            //     script.src = chrome.runtime.getURL("loadAudios.bundle.js");
+  
+            //     // Add the desired class to the script element
+            //     script.classList.add("load-audio-script");
+  
+            //     // Append the script to the body
+            //     document.body.appendChild(script);
+  
+            //     console.log('!!!!Script with class "load-audio-script" injected successfully.!!!!!');
+            //   }
+            // });
+
+            // chrome.scripting.executeScript({
+            //   target: { tabId: tabs[0].id },
+            //   files: ['loadAudios.bundle.js']  // content.js will inject script.js
+            // }, () => {
+            //   console.log('loadAudios.bundle.js injected successfully, which loads script.js with a class.');
+            // });
+          });
+
         }
       });
     } catch (error) {
@@ -58,6 +86,7 @@ function App() {
   useEffect(() => {
     if (token) {
       handleSetToken(token)
+      // insertLoadAudioScript()
     }
   }, [token]);
 
@@ -118,28 +147,16 @@ function App() {
 
 export default App;
 
-
-async function getModels(token) {
-  try {
-    const response = await fetch('https://api.openai.com/v1/models', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then(response => response.json())
-    return response;
-  } catch (error) {
-    throw error;
-  }
-}
-
-function obfuscateToken(token) {
-  const hyphenIndex = token.indexOf('-');
-
-  if (hyphenIndex === -1) {
-    return token;
-  }
-
-  const firstPart = token.slice(0, hyphenIndex + 1);
-  const lastPart = token.slice(-4);
-  return `${firstPart}****${lastPart}`;
-}
+// function insertLoadAudioScript() {
+//   console.log('inserting audio script.....')
+//   const oldScripts = document.querySelectorAll('script.load-audios');
+//   oldScripts.forEach(s => {
+//     s.remove()
+//   })
+//   const script = document.createElement("script");
+//   const src = chrome.runtime.getURL("loadAudios.bundle.js");
+//   script.src = src;
+//   // script.classList.add('load-audios')
+//   // document.body.appendChild(script);
+//   (document.head || document.documentElement).appendChild(script);
+// }
