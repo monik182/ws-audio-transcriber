@@ -14,3 +14,12 @@ Also created a new extension folder with react
 Finished the UI to save/delete api key
 Finished the basic logic to process the audios
 Not using the firebase function any more
+
+## Sep 16
+Doing tests to avid multiple requests to the same message id
+Validate cache first before sending request to OpenAI
+Deleting cache that has mocked data, maybe use a different test id for mocks
+
+## Sep 19
+Doing tests to avid multiple requests to the same message id
+Creating an event queue or delaying the events to prevent multiple requests at once to whisper

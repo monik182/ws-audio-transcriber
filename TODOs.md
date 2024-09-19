@@ -4,6 +4,9 @@
 [x] Validate if a firebase cloud function is needed
 [x] Create mode to allow user to use their token
 [ ] Process audios after saving api key
+[x] Debug why transcription requests are being fired all at once
+[ ] Debug why only MY sent audios are being transcribed
+[ ] Prevent loading saved messages and remove saved messages if there's no configured token
 [ ] Improve processing validations
 [ ] Create mode to charge user for using the service
 [ ] Add login page
