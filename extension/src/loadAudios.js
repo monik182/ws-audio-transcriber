@@ -45,7 +45,7 @@ async function getAudioMessages() {
 }
 
 async function listenOnAdd(onMessage) {
-  console.log('!!!!_________------listenninh on add a new message....');
+  // console.log('!!!!_________------listenninh on add a new message....');
   (await loadModule("WAWebCollections", 200000)).Msg.on("add", onMessage)
 }
 
@@ -99,9 +99,9 @@ function onMessageFactory(MediaBlobCache) {
 // })()f
 
 (() => {
-  console.log('*****************************STARTING THE LOAD AUDIOS SCRIPT 2******************************')
+  console.log('*****************************STARTING THE LOAD AUDIOS SCRIPT 3******************************')
   const interval = setInterval(async () => {
-    console.log('#^^^^^^^^ checking the interval...#')
+    // console.log('#^^^^^^^^ checking the interval...#')
     const sideElement = document.querySelector("#side");
 
     if (!sideElement) return;  // Keep checking if #side isn't found

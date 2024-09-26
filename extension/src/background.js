@@ -23,19 +23,20 @@ async function emitTranscriptionEvent(id, tabId, token, oggBlobURL) {
   });
 }
 
-let counter = 0;
+// let counter = 0;
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   // console.log('a message in the background....', request)
   // console.log('******** OUTSIDE TOKEN>>>', token)
+  const token = await getFromStorage(TOKEN_KEY);
+  console.log('********FOUND TOKEN>>>', token)
 
   // chrome.storage.sync.get("token", async result => {
-  //   console.log('********TOKEN>>>', result)
-  //   if (!result.token) return;
+  if (!token) return;
   //   const { token } = result;
 
     if (request.action === 'fromContent') {
-      counter++;
-      console.log('***********************', {counter}, '***************************')
+      // counter++;
+      // console.log('***********************', {counter}, '***************************')
       // if (counter > 3) return;
       const { id } = request;
       // const transcriptionQueue = await getFromStorage(TRANSCRIPTION_QUEUE_KEY) || []
@@ -45,9 +46,8 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
       // const message = savedTranscriptions[id]
       console.log(id, '>>>>>>>>>CURRENT savedMessage', savedMessage)
       if (!savedMessage) {
-        console.log(counter, 'CRETING TRANSCRIPTION FRO ID', id, savedMessage)
+        console.log('CRETING TRANSCRIPTION FRO ID', id, savedMessage)
         // console.log(id, 'CURRENT transcriptionQueue', transcriptionQueue)
-        const token = await getFromStorage(TOKEN_KEY);
         await emitTranscriptionEvent(id, sender.tab.id, token, request.oggBlobURL)
         // await saveToStorage(TRANSCRIPTION_QUEUE_KEY, [...transcriptionQueue, id])
       }

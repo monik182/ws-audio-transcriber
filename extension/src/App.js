@@ -19,39 +19,6 @@ function App() {
       await saveToStorage(TOKEN_KEY, inputValue);
       handleSetToken(inputValue);
       setInputValue('');
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        if (tabs.length > 0) {
-          chrome.tabs.reload(tabs[0].id, () => {
-            console.log('Page reloaded, injecting script...');
-            // chrome.scripting.executeScript({
-            //   target: { tabId: tabs[0].id },
-            //   func: () => {
-            //     // Create a new script element
-            //     const script = document.createElement("script");
-  
-            //     // Set the source to your script file
-            //     script.src = chrome.runtime.getURL("loadAudios.bundle.js");
-  
-            //     // Add the desired class to the script element
-            //     script.classList.add("load-audio-script");
-  
-            //     // Append the script to the body
-            //     document.body.appendChild(script);
-  
-            //     console.log('!!!!Script with class "load-audio-script" injected successfully.!!!!!');
-            //   }
-            // });
-
-            // chrome.scripting.executeScript({
-            //   target: { tabId: tabs[0].id },
-            //   files: ['loadAudios.bundle.js']  // content.js will inject script.js
-            // }, () => {
-            //   console.log('loadAudios.bundle.js injected successfully, which loads script.js with a class.');
-            // });
-          });
-
-        }
-      });
     } catch (error) {
       setError(error.message || 'There has been an error with the provided api key.');
       throw error
@@ -67,6 +34,7 @@ function App() {
     const token = await getFromStorage(TOKEN_KEY);
     if (!token) {
       setToken('');
+      // chrome.storage.sync.clear();
     }
   };
 
@@ -85,8 +53,15 @@ function App() {
 
   useEffect(() => {
     if (token) {
+      console.log('####### setting token and sending message.,...', token)
       handleSetToken(token)
-      // insertLoadAudioScript()
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs.length > 0) {
+          chrome.tabs.sendMessage(tabs[0].id, {
+            action: "insertScript",
+          });
+        }
+      });
     }
   }, [token]);
 

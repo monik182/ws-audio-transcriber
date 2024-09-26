@@ -9,8 +9,15 @@ export const removeFromStorage = async (key) => {
 };
 
 export const getFromStorage = async (key) => {
-  const value = await chrome?.storage?.sync?.get?.(key);
-  return value[key];
+  try {
+    // console.log('KEY getting from storage>>>>', key)
+    const value = await chrome?.storage?.sync?.get?.(key);
+    // console.log('VALUE getting from storage>>>>', value)
+    return value[key];
+  } catch (error) {
+    console.log('ERROR@getFromStorage', error)
+    return null;
+  }
 };
 
 export async function getModels(token) {

@@ -1,6 +1,6 @@
 import { getFromStorage, wait } from './utils'
 
-sessionStorage.clear();
+// sessionStorage.clear();
 // window.addEventListener('load', function () {
 //   console.log('after loading the dom')
 //   const script = document.createElement("script");
@@ -13,16 +13,25 @@ sessionStorage.clear();
 
 // TODO: create an event from app that reloads this script
 
-const oldScripts = document.querySelectorAll('script.load-audios');
-oldScripts.forEach(s => {
-  s.remove()
-})
-const script = document.createElement("script");
-const src = chrome.runtime.getURL("loadAudios.bundle.js");
-script.src = src;
-script.classList.add('load-audios')
-document.body.appendChild(script);
-let count = 0;
+function insertScript() {
+  console.log('inserting load audios script....')
+  const oldScripts = document.querySelectorAll('script.load-audios');
+  oldScripts.forEach(s => {
+    s.remove()
+  })
+  const script = document.createElement("script");
+  const src = chrome.runtime.getURL("loadAudios.bundle.js");
+  script.src = src;
+  script.classList.add('load-audios')
+  document.body.appendChild(script);
+  console.log('inserted script load audios....')
+}
+
+// let count = 0;
+
+// window.addEventListener("insertScript", async (data) => {
+//   console.log('RECEIVED insertScript EVENT FROM WINDOW>>>>>', data)
+// });
 
 window.addEventListener("audioOGG", async (data) => {
   const id = data.detail.id;
@@ -38,9 +47,12 @@ window.addEventListener("audioOGG", async (data) => {
     });
   } else {
     let el = document.querySelector(`[data-id="${id}"]`);
+    console.log(id, '>>>>>>>.found audio element>>>>>>.', el);
+
     if (!el) return;
 
     el = el.querySelector("._ak49._ak48") || el.querySelector("._ak4a._ak48");
+    console.log('>>>>>>>.found very specific query selector element>>>>>>. ._ak4a._ak48', el);
     if (!el) return;
 
     insertTranscription(id, el);
@@ -81,20 +93,30 @@ window.addEventListener("audioOGG", async (data) => {
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  const id = request.id;
+  // console.log('*******IN MESSAGE IN CONTENT>>>>', request)
+  // insertScript
+  const { id, action } = request;
+
+  if (action === "insertScript") {
+    insertScript();
+    return;
+  }
 
   window.URL.revokeObjectURL(request.wavBlobURL);
 
   let el = document.querySelector(`[data-id="${id}"]`);
+  // console.log('>>>>>>>.found audio element>>>>>>.', id);
   if (!el) return;
 
   el = el.querySelector("._ak49._ak48") || el.querySelector("._ak4a._ak48");
+  // console.log('>>>>>>>.found very specific query selector element>>>>>>. ._ak4a._ak48', id);
+
   if (!el) return;
 
-  const storedIds = sessionStorage.getItem('ids');
-  const ids = storedIds ? JSON.parse(storedIds) : []
-  const filteredIds = ids.filter(_id => _id !== id)
-  sessionStorage.setItem('ids', JSON.stringify(filteredIds))
+  // const storedIds = sessionStorage.getItem('ids');
+  // const ids = storedIds ? JSON.parse(storedIds) : []
+  // const filteredIds = ids.filter(_id => _id !== id)
+  // sessionStorage.setItem('ids', JSON.stringify(filteredIds))
 
   insertTranscription(id, el);
 });
@@ -104,7 +126,7 @@ async function insertTranscription(id, el) {
   // });
   const savedMessage = await getFromStorage(id)
 
-  console.log('^*^*^*^*^*^^^^^^^^^^^^INSERITNG THE TRANSCRIPTION?????', id, savedMessage)
+  console.log('^*^*^*^*^*^^^^^^^^^^^^INSERITNG THE TRANSCRIPTION?????', id, savedMessage);
 
   if (!savedMessage) return;
   const record = savedMessage.value;
